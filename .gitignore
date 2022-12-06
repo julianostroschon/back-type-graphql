@@ -132,3 +132,7 @@ scripts/files
 !.yarn/sdks
 !.yarn/versions
 database.crt
+
+
+# buildedApp
+dist/
