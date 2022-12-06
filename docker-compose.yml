@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: 'root'
       TZ: America/Sao_paulo
     ports:
-      - '5431:4321'
+      - '4431:5432'
     restart: always
     volumes:
-      - ~/.PostgreSQL:/var/lib/postgresql/data
+      - ~/.parti-notes:/var/lib/postgresql/data
