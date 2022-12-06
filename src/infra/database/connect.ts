@@ -4,7 +4,7 @@ import { getConfig } from './config'
 const connect = (database: string) => {
   const extra: Partial<Knex.Config> = {
     pool: {
-      afterCreate: (conn: Knex, done: () => void) => {
+      afterCreate: (_: Knex, done: () => void) => {
         done()
       }
     }

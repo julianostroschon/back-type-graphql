@@ -7,6 +7,7 @@ import { createServer } from 'http'
 import { schema } from './schema'
 import express from 'express'
 import cors from 'cors'
+import { defineContext } from './infra/context'
 
 const PORT: number | string = process.env.GRAPHQL_PORT || 4004
 
@@ -15,11 +16,7 @@ const server = new ApolloServer({
   schema,
   validationRules: [depthLimit(7)],
   playground: true,
-  context: ({ req }) => {
-    return {
-      headers: req
-    }
-  }
+  context: async () => await defineContext()
 })
 app.use('*', cors())
 app.use(compression())

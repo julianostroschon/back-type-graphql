@@ -2,7 +2,7 @@
 import { DatabaseContainer } from './infra'
 
 type Context = {
-  databases: DatabaseContainer
+  database: DatabaseContainer
 }
 
 export { Context }

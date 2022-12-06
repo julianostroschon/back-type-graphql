@@ -4,8 +4,8 @@ import { IResolvers } from 'graphql-tools'
 
 const resolverMap: IResolvers = {
   Query: {
-    ping(_: void, args: void, ctx: Context, info: GraphQLResolveInfo): string {
-      console.log(ctx, args, info)
+    ping(_: void, __: void, ctx: Context, ___: GraphQLResolveInfo): string {
+      console.log(ctx.database)
       return `👋 Pong! 👋`
     }
   }

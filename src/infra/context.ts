@@ -3,7 +3,7 @@ import { Context } from '../contracts/general/context'
 
 const defineContext = async (): Promise<Context> => {
   return {
-    databases: createContainer()
+    database: createContainer()
   }
 }
 

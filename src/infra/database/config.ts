@@ -1,27 +1,27 @@
 import { Knex } from 'knex'
 import { defaultsDeep } from 'lodash'
-import fs from 'fs'
+// import fs from 'fs'
 
 import { DATABASE } from './database-config'
 
-const ssl = ((option) => {
-  if (option === undefined) {
-    return false
-  }
+// const ssl = ((option) => {
+//   if (option === undefined) {
+//     return false
+//   }
 
-  if (option === 'yes') {
-    return true
-  }
+//   if (option === 'yes') {
+//     return true
+//   }
 
-  if (option.indexOf('.crt') > 0) {
-    return {
-      rejectUnauthorized: true,
-      ca: fs.readFileSync(option).toString()
-    }
-  }
+//   if (option.indexOf('.crt') > 0) {
+//     return {
+//       rejectUnauthorized: true,
+//       ca: fs.readFileSync(option).toString()
+//     }
+//   }
 
-  throw new Error(`DB_SSL: ${option} is not valid option`)
-})(DATABASE.ssl)
+//   throw new Error(`DB_SSL: ${option} is not valid option`)
+// })(DATABASE.ssl)
 
 const config: Knex.Config = Object.freeze({
   client: 'pg',
@@ -31,8 +31,8 @@ const config: Knex.Config = Object.freeze({
     host: DATABASE.host,
     user: DATABASE.user,
     password: DATABASE.password,
-    database: DATABASE.name,
-    ssl
+    database: DATABASE.name
+    // ssl
   })
 })
 
