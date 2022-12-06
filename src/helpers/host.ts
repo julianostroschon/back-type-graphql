@@ -1,4 +1,4 @@
-import { getConfig } from './helpers'
+import { getConfig } from './environment'
 
 export function getHost(): string {
   return getConfig('GRAPHQL_HOST', 'localhost')
@@ -10,4 +10,11 @@ export function getPort(): number {
 
 export function getGraphQLPath() {
   return getConfig('GRAPHQL_PATH', '/graphql')
+}
+
+export function getHostApi(): string {
+  const path = getGraphQLPath()
+  const host = getHost()
+  const port = getPort()
+  return `http://${host}:${port}${path}`
 }

@@ -1,5 +1,5 @@
-import { getPort, getHost, getGraphQLPath } from './lib'
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer'
+import { getPort, getHost, getGraphQLPath } from './helpers'
 import { ApolloServer } from 'apollo-server-express'
 import { defineContext } from './infra/context'
 import depthLimit from 'graphql-depth-limit'
