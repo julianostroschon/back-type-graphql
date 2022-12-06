@@ -1,12 +1,14 @@
-import express from 'express'
+require('dotenv').config()
+
 import { ApolloServer } from 'apollo-server-express'
 import depthLimit from 'graphql-depth-limit'
-import { createServer } from 'http'
 import compression from 'compression'
-import cors from 'cors'
+import { createServer } from 'http'
 import { schema } from './schema'
+import express from 'express'
+import cors from 'cors'
 
-const PORT: number = 4004
+const PORT: number | string = process.env.GRAPHQL_PORT || 4004
 
 const app = express()
 const server = new ApolloServer({
