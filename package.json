@@ -7,7 +7,13 @@
     "start": "node 'dist/server.js'",
     "build": "tsc -p . && ncp src/schema dist/schema",
     "dev": "yarn run build:dev",
-    "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql"
+    "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
+    "lint:ci": "eslint -f json -o coverage/eslint.json src/",
+    "format": "prettier . -w -u",
+    "format:check": "prettier . -c -u",
+    "lint": "eslint --max-warnings=0",
+    "prepare": "husky install",
+    "postinstall": "yarn husky install"
   },
   "repository": {
     "type": "git",
@@ -28,6 +34,7 @@
     "graphql-depth-limit": "1.1.0",
     "graphql-import": "0.7.1",
     "graphql-import-node": "0.0.1",
+    "husky": "^8.0.2",
     "nodemon": "1.18.10",
     "ts-node": "8.0.2",
     "typescript": "3.3.3"
@@ -43,5 +50,10 @@
     "http": "0.0.0",
     "ncp": "2.0.0",
     "prettier": "^2.8.0"
+  },
+  "lint-staged": {
+    "*": [
+      "yarn pretty-quick --staged"
+    ]
   }
 }

@@ -1,4 +1,12 @@
 {
+  "eslint.packageManager": "yarn",
+  "eslint.alwaysShowStatus": true,
+  "eslint.validate": [
+    "javascript",
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#4a39c0",
     "activityBar.background": "#4a39c0",
