@@ -1,9 +1,10 @@
-import { createContainer } from './database'
+import { database } from './database'
 import { Context } from '../contracts/general/context'
 
-const defineContext = async (): Promise<Context> => {
+const defineContext = async ({ req }: any): Promise<Context> => {
   return {
-    database: createContainer()
+    database,
+    req
   }
 }
 

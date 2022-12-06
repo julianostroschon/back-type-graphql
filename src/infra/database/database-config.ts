@@ -1,15 +1,18 @@
-const getConfig = (configName: string, fallback: string | undefined = undefined): any => {
-  return process.env[configName] || fallback
+import { Knex } from 'knex'
+import { getConfig } from '../../helpers'
+
+function parseToInt(value: string): number {
+  return parseInt(value, 10)
 }
 
-const DATABASE = Object.freeze({
-  prefix: getConfig('DB_PREFIX', ''),
-  ssl: getConfig('DB_SSL'),
-  port: getConfig('DB_PORT', '4432'),
-  host: getConfig('DB_HOST', '127.0.0.1'),
-  user: getConfig('DB_USER', 'root'),
-  password: getConfig('DB_PASSWORD', 'root'),
-  name: getConfig('DB_NAME', 'posrgres')
-})
-
-export { DATABASE }
+export const DATABASE: Knex.Config = {
+  client: 'pg',
+  version: '7.2',
+  connection: {
+    host: getConfig('DB_HOST', 'localhost'),
+    port: parseToInt(getConfig('DB_PORT', '4432')),
+    user: getConfig('DB_USER', 'root'),
+    password: getConfig('DB_PASSWORD', 'root'),
+    database: getConfig('DB_NAME', 'postgres')
+  }
+}

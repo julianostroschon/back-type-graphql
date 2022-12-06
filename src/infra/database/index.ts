@@ -1,2 +1,4 @@
-export { default as connect } from './connect'
-export { createContainer } from './container'
+import { DATABASE } from './database-config'
+import { knex } from 'knex'
+
+export const database = knex(DATABASE)

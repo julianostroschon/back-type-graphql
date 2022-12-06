@@ -1,8 +1,9 @@
-// import { Knex } from 'knex'
-import { DatabaseContainer } from './infra'
+import { Request } from 'apollo-server-express'
+import { Knex } from 'knex'
 
 type Context = {
-  database: DatabaseContainer
+  database: Knex
+  req: Request
 }
 
 export { Context }

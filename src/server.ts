@@ -1,27 +1,29 @@
-require('dotenv').config()
-
+import { getPort, getHost, getGraphQLPath } from './lib'
+import { ExpressContext } from 'apollo-server-express/dist/ApolloServer'
 import { ApolloServer } from 'apollo-server-express'
+import { defineContext } from './infra/context'
 import depthLimit from 'graphql-depth-limit'
 import compression from 'compression'
 import { createServer } from 'http'
 import { schema } from './schema'
 import express from 'express'
 import cors from 'cors'
-import { defineContext } from './infra/context'
 
-const PORT: number | string = process.env.GRAPHQL_PORT || 4004
+const PATH: string = getGraphQLPath()
+const PORT: number = getPort()
+const HOST: string = getHost()
 
-const app = express()
+const app = express().use('*', cors()).use(compression())
+
 const server = new ApolloServer({
   schema,
   validationRules: [depthLimit(7)],
   playground: true,
-  context: async () => await defineContext()
+  context: async (ctx: ExpressContext) => await defineContext(ctx)
 })
-app.use('*', cors())
-app.use(compression())
-server.applyMiddleware({ app, path: '/graphql' })
-const httpServer = createServer(app)
-httpServer.listen({ port: PORT }, (): void =>
-  console.log(`🚀\nGraphQL is now running on http://localhost:${PORT}/graphql`)
-)
+
+server.applyMiddleware({ app, path: PATH })
+
+createServer(app).listen({ port: PORT }, (): void => {
+  console.log(`🚀\nGraphQL is now running on http://${HOST}:${PORT}${server.graphqlPath}`)
+})
