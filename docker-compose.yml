@@ -1,0 +1,13 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root'
+      TZ: America/Sao_paulo
+    ports:
+      - '5431:4321'
+    restart: always
+    volumes:
+      - ~/.PostgreSQL:/var/lib/postgresql/data

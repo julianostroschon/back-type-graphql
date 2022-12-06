@@ -2,7 +2,7 @@ import { Knex } from 'knex'
 import { defaultsDeep } from 'lodash'
 import fs from 'fs'
 
-import { DATABASE } from '../../config'
+import { DATABASE } from './database-config'
 
 const ssl = ((option) => {
   if (option === undefined) {
