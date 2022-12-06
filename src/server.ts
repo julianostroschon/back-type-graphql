@@ -1,38 +1,28 @@
-import express from "express"
-import { ApolloServer } from "apollo-server-express"
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import depthLimit from 'graphql-depth-limit';
+import { createServer } from 'http';
+import compression from 'compression';
+import cors from 'cors';
+import schema from './schema';
 
-const PORT = process.env.GRAPHQL_PORT || 4001
+const PORT: number = 4004
 
 const app = express();
-
-const typeDefs = `
-    type Query{
-        ping: String!
+const server = new ApolloServer({
+  schema,
+  validationRules: [depthLimit(7)],
+  playground: true,
+  context: ({req}) => {
+    return {
+      headers: req,
     }
-`;
-const resolvers = {
-    Query: {
-        ping: () => `Pong`,
-    },
-};
-let apolloServer: any = null;
-async function startServer() {
-    apolloServer = new ApolloServer({
-        typeDefs,
-        resolvers,
-    });
-    await apolloServer.start();
-    apolloServer.applyMiddleware({ app });
-}
-startServer();
-
-app.get("/rest", function (req: any, res: any) {
-  console.log(req)
-    res.json({ data: "api working" });
+  }
 });
-
-app.listen(PORT, function (url: any) {
-    console.log(`server running on port ${PORT}`);
-    console.log(url);
-    console.log(`gql path is ${apolloServer.graphqlPath}`);
-});
+app.use('*', cors());
+app.use(compression());
+server.applyMiddleware({ app, path: '/graphql' });
+const httpServer = createServer(app);
+httpServer.listen({ port: PORT }, (): void =>
+  console.log(`🚀\nGraphQL is now running on http://localhost:${PORT}/graphql`)
+);
