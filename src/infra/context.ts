@@ -1,10 +1,9 @@
 import { database } from './database'
 import { Context } from '../contracts/general/context'
 
-const defineContext = async ({ req }: any): Promise<Context> => {
+const defineContext = async (): Promise<Context> => {
   return {
-    database,
-    req
+    database
   }
 }
 

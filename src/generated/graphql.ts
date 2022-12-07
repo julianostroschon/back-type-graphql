@@ -15,7 +15,12 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query'
+  hello: Scalars['String']
   ping: Scalars['String']
+}
+
+export type QueryPingArgs = {
+  some?: InputMaybe<Scalars['String']>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -102,13 +107,29 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']
 }
 
+export type SpecifiedByDirectiveArgs = {
+  url: Scalars['String']
+}
+
+export type SpecifiedByDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = SpecifiedByDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>
+
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  ping?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  ping?: Resolver<ResolversTypes['String'], ParentType, ContextType, Partial<QueryPingArgs>>
 }
 
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>
+}
+
+export type DirectiveResolvers<ContextType = any> = {
+  specifiedBy?: SpecifiedByDirectiveResolver<any, any, ContextType>
 }
