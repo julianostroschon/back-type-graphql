@@ -1,30 +1,20 @@
-import mercurius from 'mercurius'
-import Fastify from 'fastify'
+import 'reflect-metadata';
+import { ApolloServer } from 'apollo-server';
 
-import buildServer from './server/index'
+import { createConfigServer } from './server/config';
+import { getPort } from './helpers';
 
-const app = Fastify({
-  requestIdLogLabel: 'traceID',
-  disableRequestLogging: true,
-  logger: {
-    name: 'parti-notes-back',
-    level: 'info'
-  }
-})
+const PORT = getPort();
 
-async function run() {
-  buildServer(app, mercurius)
-    .then((server) => {
-      const port = '4001'
-      return server.listen(port)
-    })
-    .then(({ url }) => {
-      app.log.info(`🚀 Server ready at ${url}`)
-      return
-    })
-    .catch((err) => {
-      app.log.error(err.message)
-    })
+/**
+ * We create a new ApolloServer instance, passing in the result of calling createConfigServer() as the
+ * configuration object
+ */
+async function runServer() {
+  const server = new ApolloServer(await createConfigServer());
+
+  const { url } = await server.listen(PORT);
+  console.log(`🚀\nServer ready at ${url}`);
 }
 
-run()
+runServer();

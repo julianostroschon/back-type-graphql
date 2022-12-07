@@ -13,7 +13,7 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'no-console': ['warn'],
-    'prettier/prettier': ['error']
+    'prettier/prettier': ['warn']
   },
   ignorePatterns: ['**/__mocks__/**', 'node_modules/**', 'dist/**']
-}
+};
