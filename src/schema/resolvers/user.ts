@@ -1,9 +1,9 @@
 import { User } from '../../Entities/User';
 import { Query, Ctx, Resolver, Root, Arg } from 'type-graphql';
-import { Context } from 'contracts/general';
+import { Context } from '../../contracts/general';
 
 @Resolver()
-export class userResolver {
+export class UserResolver {
   /* A query that returns a user. */
   @Query(() => User)
   /**

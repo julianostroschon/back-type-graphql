@@ -1,24 +1,20 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server';
-import { buildSchema } from 'type-graphql';
 
-import { pingResolver } from './schema/resolvers/ping';
-import { userResolver } from './schema/resolvers/user';
-import { createContext } from './infra/context';
-
+import { createConfigServer } from './server/config';
 import { getPort } from './helpers';
 
 const PORT = getPort();
 
+/**
+ * We create a new ApolloServer instance, passing in the result of calling createConfigServer() as the
+ * configuration object
+ */
 async function runServer() {
-  const schema = await buildSchema({
-    resolvers: [pingResolver, userResolver]
-  });
-
-  const server = new ApolloServer({ schema, ...createContext() });
+  const server = new ApolloServer(await createConfigServer());
 
   const { url } = await server.listen(PORT);
-  console.log(`Server is running at: => ${url}`);
+  console.log(`🚀\nServer ready at ${url}`);
 }
 
 runServer();

@@ -4,6 +4,6 @@ import { Query, Resolver } from 'type-graphql';
 export class pingResolver {
   @Query(() => String)
   ping() {
-    return 'pong';
+    return `pong!`;
   }
 }
