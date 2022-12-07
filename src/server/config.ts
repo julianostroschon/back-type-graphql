@@ -1,6 +1,7 @@
-import { UserResolver } from './../schema/resolvers/user';
-import { pingResolver } from './../schema/resolvers/ping';
-import { buildTypeDefs } from './../schema/buildTypeDefs';
+// import { UserResolver } from './resolvers/user';
+// import { pingResolver } from './resolvers/ping';
+import { buildTypeDefs } from './buildTypeDefs';
+import { buildResolvers } from './buildResolvers';
 import { createContext } from '../infra/context';
 import { buildSchema } from 'type-graphql';
 import path from 'path';
@@ -24,9 +25,9 @@ async function loadSchema(schemaLocation: string, resolvers: any) {
  *   context: The context object
  *   typeDefs: The type definitions
  */
-export async function createConfigServer(schemaLocation: string = './schema/schema.graphql') {
+export async function createConfigServer(schemaLocation: string = './schema/typeDefs.graphql') {
   const [schema, context, typeDefs] = await Promise.all([
-    await loadSchema(schemaLocation, [pingResolver, UserResolver]),
+    await loadSchema(schemaLocation, await buildResolvers()),
     await createContext(),
     await buildTypeDefs()
   ]);
