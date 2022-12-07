@@ -1,7 +1,14 @@
-import { Knex } from 'knex'
+import { Knex } from 'knex';
+
+type User = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 type Context = {
-  database: Knex
-}
+  database: Knex;
+  user: User;
+};
 
-export { Context }
+export { Context };
