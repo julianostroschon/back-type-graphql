@@ -1,10 +1,19 @@
-// import { database } from './database'
-// import { Context } from '../contracts/general/context'
+import { database } from './database';
+import { Context } from '../contracts/general/context';
 
-// const defineContext = async (): Promise<Context> => {
-//   return {
-//     database
-//   }
-// }
+const user = { name: 'Juliano', password: 'senhazinha' };
 
-// export { defineContext }
+const defineContext = async (): Promise<Context> => {
+  return {
+    database,
+    user
+  };
+};
+
+export async function createContext() {
+  return {
+    context: async (): Promise<Context> => {
+      return await defineContext();
+    }
+  };
+}

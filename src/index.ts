@@ -4,6 +4,7 @@ import { buildSchema } from 'type-graphql';
 
 import { pingResolver } from './schema/resolvers/ping';
 import { userResolver } from './schema/resolvers/user';
+import { createContext } from './infra/context';
 
 import { getPort } from './helpers';
 
@@ -13,9 +14,8 @@ async function runServer() {
   const schema = await buildSchema({
     resolvers: [pingResolver, userResolver]
   });
-  const user = { name: 'Juliano', password: 'senhazinha' };
 
-  const server = new ApolloServer({ schema, context: user });
+  const server = new ApolloServer({ schema, ...createContext() });
 
   const { url } = await server.listen(PORT);
   console.log(`Server is running at: => ${url}`);

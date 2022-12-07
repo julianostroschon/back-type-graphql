@@ -2,7 +2,6 @@ import { Knex } from 'knex';
 
 type User = {
   name: string;
-  email: string;
   password: string;
 };
 
