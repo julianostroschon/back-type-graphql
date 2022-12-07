@@ -1,25 +1,16 @@
-import { buildSchema } from './lib'
-import * as resolverUnique from './resolvers/'
+import resolvers from './resolvers/'
+
 async function buildServer(app: any, mercurius: any) {
-  const basePath = __dirname
-  const typeDefsInfo = {
-    basePath,
-    relativePath: '../schema',
-    extensions: ['graphql']
-  }
-  const resolversInfo = {
-    basePath,
-    relativePath: './resolvers'
+  const opts = {
+    schema: `type Query {
+      ping: String!
+      hello: String!
+    }`,
+    resolvers
   }
 
-  const { typeDefs } = await buildSchema(typeDefsInfo, resolversInfo)
-  const schema = { typeDefs, resolvers: resolverUnique.default }
-  console.log({ schema })
-  app.register(mercurius, schema).get('/', (_: any, reply: any) => {
-    console.log(reply)
-    const query = `{ hello }`
-
-    return reply.graphql(query, _)
+  app.register(mercurius, opts).post('/', (req: any, reply: any) => {
+    return reply.graphql(req.body.query)
   })
 
   return {
