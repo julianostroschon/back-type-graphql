@@ -1,30 +1,21 @@
-import mercurius from 'mercurius'
-import Fastify from 'fastify'
+import 'reflect-metadata';
 
-import buildServer from './server/index'
+import { pingResolver } from './schema/resolvers/ping';
+import { ApolloServer } from 'apollo-server';
+import { buildSchema } from 'type-graphql';
+import { getPort } from './helpers';
 
-const app = Fastify({
-  requestIdLogLabel: 'traceID',
-  disableRequestLogging: true,
-  logger: {
-    name: 'parti-notes-back',
-    level: 'info'
-  }
-})
+const PORT = getPort();
 
-async function run() {
-  buildServer(app, mercurius)
-    .then((server) => {
-      const port = '4001'
-      return server.listen(port)
-    })
-    .then(({ url }) => {
-      app.log.info(`🚀 Server ready at ${url}`)
-      return
-    })
-    .catch((err) => {
-      app.log.error(err.message)
-    })
+async function runServer() {
+  const schema = await buildSchema({
+    resolvers: [pingResolver]
+  });
+
+  const server = new ApolloServer({ schema });
+
+  const { url } = await server.listen(PORT);
+  console.log(`Server is running at: => ${url}`);
 }
 
-run()
+runServer();
