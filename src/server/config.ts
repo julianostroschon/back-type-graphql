@@ -1,5 +1,3 @@
-// import { UserResolver } from './resolvers/user';
-// import { pingResolver } from './resolvers/ping';
 import { buildTypeDefs } from './buildTypeDefs';
 import { buildResolvers } from './buildResolvers';
 import { createContext } from '../infra/context';
