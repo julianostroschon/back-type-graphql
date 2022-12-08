@@ -4,6 +4,7 @@
 # -----------------------------------------------
 
 type Mutation {
+  createUser(data: UserInput!): User!
   pong: String!
 }
 
@@ -13,8 +14,14 @@ type Query {
 }
 
 type User {
+  email: String!
   id: String!
   name: String!
   password: String!
-  username: String!
+}
+
+input UserInput {
+  email: String
+  name: String!
+  password: String
 }

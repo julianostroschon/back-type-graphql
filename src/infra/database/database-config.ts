@@ -1,8 +1,9 @@
-import { Knex } from 'knex'
-import { getConfig } from '../../helpers'
+import { Knex } from 'knex';
+import { getConfig } from '../../helpers';
+import { defaultsDeep } from 'lodash';
 
 function parseToInt(value: string): number {
-  return parseInt(value, 10)
+  return parseInt(value, 10);
 }
 
 export const DATABASE: Knex.Config = {
@@ -14,5 +15,10 @@ export const DATABASE: Knex.Config = {
     user: getConfig('DB_USER', 'root'),
     password: getConfig('DB_PASSWORD', 'root'),
     database: getConfig('DB_NAME', 'postgres')
-  }
+  },
+  pool: { min: 0, max: 5, idleTimeoutMillis: 60000 }
+};
+
+export function getKnexConfig(database: string, extra = {}): Knex.Config {
+  return defaultsDeep({ connection: { database } }, extra, DATABASE) as Knex.Config;
 }
