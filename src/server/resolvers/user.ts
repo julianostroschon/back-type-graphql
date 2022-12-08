@@ -1,5 +1,7 @@
 import { User } from '../../Entities/User';
-import { Query, Ctx, Resolver, Root, Arg } from 'type-graphql';
+import { first } from 'lodash';
+import { UserInput } from '../../Entities/UserInput';
+import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
 import { Context } from '../../contracts/general';
 
 @Resolver()
@@ -21,6 +23,15 @@ export class UserResolver {
     @Arg('id') id: string,
     @Ctx() { database }: Context
   ): Promise<User> {
-    return database('funcionarios').where({ id }).first();
+    return database('users').where({ id }).first();
+  }
+
+  @Mutation(() => User)
+  async createUser(
+    @Root() _: any,
+    @Arg('data') data: UserInput,
+    @Ctx() { database }: Context
+  ): Promise<User> {
+    return first(await database('users').insert(data).returning('*'));
   }
 }
