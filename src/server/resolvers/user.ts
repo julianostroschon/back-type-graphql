@@ -21,6 +21,6 @@ export class UserResolver {
     @Arg('id') id: string,
     @Ctx() { database }: Context
   ): Promise<User> {
-    return database('funcionarios').where({ id }).first();
+    return database('users').where({ id }).first();
   }
 }
