@@ -136,3 +136,4 @@ database.crt
 
 # buildedApp
 dist/
+node_modules
