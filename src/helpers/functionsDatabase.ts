@@ -29,7 +29,7 @@ export async function applyDelete(
   return database(table).where(where).delete();
 }
 
-export async function findOne(
+export async function findAll(
   database: Knex,
   table: string,
   select = ['*'],
@@ -38,7 +38,7 @@ export async function findOne(
   return database(table).select(select).where(where).first();
 }
 
-export async function findAll(
+export async function findOne(
   database: Knex,
   table: string,
   select: string[],
