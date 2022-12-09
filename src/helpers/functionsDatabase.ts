@@ -1,35 +1,48 @@
+import { UserInput } from 'Entities/UserInput';
 import { Knex } from 'knex';
+import { DefaultObject } from '../contracts/general';
 
-/**
- * Function that inserts into a table in the database
- * @param {Knex} database
- * @param {string} table
- * @param {any} data:{data:any}
- * @returns {any}
- */
-export function applyInsert(database: Knex, table: string, data: { data: any }) {
-  return database(table).insert(data);
+export async function applyInsert(
+  database: Knex,
+  table: string,
+  data: DefaultObject | UserInput,
+  returning: string[]
+): Promise<Array<DefaultObject>> {
+  return database(table).insert(data, returning);
 }
 
-/**
- * Function that modifies a table in the database
- * @param {Knex} database
- * @param {string} table
- * @param {string} where
- * @param {any} data:{data:any}
- * @returns {any}
- */
-export function applyUpdate(database: Knex, table: string, where: string, data: { data: any }) {
-  return database(table).update(data).where(where).returning(table);
+export async function applyUpdate(
+  database: Knex,
+  table: string,
+  where: DefaultObject,
+  data: DefaultObject | Array<string>,
+  returning: string[]
+): Promise<DefaultObject> {
+  return database(table).where(where).update(data, returning);
 }
 
-/**
- * Function that deletes a table in the database
- * @param {Knex} database
- * @param {string} table
- * @param {string} where
- * @returns {any}
- */
-export function applyDelete(database: Knex, table: string, where: string) {
+export async function applyDelete(
+  database: Knex,
+  table: string,
+  where: DefaultObject
+): Promise<boolean> {
   return database(table).where(where).delete();
+}
+
+export async function findOne(
+  database: Knex,
+  table: string,
+  select = ['*'],
+  where: DefaultObject
+): Promise<DefaultObject> {
+  return database(table).select(select).where(where).first();
+}
+
+export async function findAll(
+  database: Knex,
+  table: string,
+  select: string[],
+  where: DefaultObject
+): Promise<DefaultObject> {
+  return database(table).where(where).select(select);
 }
