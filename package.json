@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "postinstall": "yarn husky install",
     "codegen": "graphql-codegen --config codegen.ts",
-    "test": "jest"
+    "unit:test": "jest"
   },
   "repository": {
     "type": "git",
