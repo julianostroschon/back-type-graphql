@@ -1,4 +1,4 @@
-const { pingResolver } = require('../src/server/resolvers/ping');
+import { pingResolver } from '../src/server/resolvers/ping';
 
 describe('Resolver Ping', () => {
   test('Deve retornar `pong`', () => {
