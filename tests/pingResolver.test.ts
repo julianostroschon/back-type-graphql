@@ -1,6 +1,4 @@
-// import 'reflect-metadata';
-
-const { pingResolver } = require('../server/resolvers/ping');
+const { pingResolver } = require('../src/server/resolvers/ping');
 
 describe('Resolver Ping', () => {
   test('Deve retornar `pong`', () => {
