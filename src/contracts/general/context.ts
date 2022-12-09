@@ -1,9 +1,5 @@
+import { User } from 'Entities/User';
 import { Knex } from 'knex';
-
-type User = {
-  name: string;
-  password: string;
-};
 
 type Context = {
   database: Knex;
