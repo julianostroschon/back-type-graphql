@@ -3,11 +3,12 @@ import { Mutation, Query, Resolver } from 'type-graphql'
 @Resolver()
 export class pingResolver {
   @Query(() => String)
-  ping() {
+  ping(): string {
     return `pong!`
   }
+
   @Mutation(() => String)
-  pong() {
+  pong(): string {
     return `ping!`
   }
 }
