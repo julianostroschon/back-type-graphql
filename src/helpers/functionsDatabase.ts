@@ -29,10 +29,10 @@ export async function applyDelete(
   return await database(table).where(where).delete()
 }
 
-export async function findAll(
+export async function findOne(
   database: Knex,
   table: string,
-  select = ['*'],
+  select: string[],
   where: DefaultObject
 ): Promise<DefaultObject | undefined> {
   return (await database(table).select(select).where(where).first()) as
@@ -40,10 +40,10 @@ export async function findAll(
     | undefined
 }
 
-export async function findOne(
+export async function findAll(
   database: Knex,
   table: string,
-  select: string[] = [],
+  select: string[] = ['*'],
   where: DefaultObject
 ): Promise<DefaultObject[]> {
   return await database(table).where(where).select(select)
