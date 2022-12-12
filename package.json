@@ -14,7 +14,10 @@
     "prepare": "husky install",
     "postinstall": "yarn husky install",
     "codegen": "graphql-codegen --config codegen.ts",
-    "unit:test": "jest"
+    "unit:test": "jest",
+    "migrate:latest": "npx knex migrate:latest",
+    "migrate:rollback": "npx knex migrate:rollback",
+    "seed:run": "npx knex seed:run"
   },
   "repository": {
     "type": "git",
