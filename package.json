@@ -4,11 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "new:dev": "tsnd --respawn -- src/index.ts",
+    "dev": "tsnd --respawn src/index.ts",
     "watch": "tsc -w",
-    "dev": "nodemon dist/index.js",
-    "run:dev": "yarn run build:dev",
-    "build:dev": "nodemon 'src/index.ts' --exec 'ts-node' src/index.ts -e ts,graphql",
     "build:schema": "tsnd --transpile-only src/",
     "lint:ci": "eslint -f json -o coverage/eslint.json src/",
     "format": "prettier . -w -u",
