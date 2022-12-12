@@ -1,14 +1,16 @@
-import { UserInput } from '../Entities/UserInput'
-import { Knex } from 'knex'
-import { DefaultObject } from '../contracts/general'
+import { Knex } from 'knex';
+import { DefaultObject } from '../contracts/general';
 
-export async function applyInsert(
+// type InputType = DefaultObject | Class;
+export async function applyInsert<InsertType, ReturnType>(
   database: Knex,
   table: string,
-  data: DefaultObject | UserInput,
-  returning: string[]
-): Promise<DefaultObject[]> {
-  return await database(table).insert(data, returning)
+  data: InsertType,
+  returning: string[] = ['*']
+): Promise<ReturnType[]> {
+  return (await database(table)
+    .insert(data)
+    .returning(returning)) as ReturnType[];
 }
 
 export async function applyUpdate(
@@ -18,7 +20,7 @@ export async function applyUpdate(
   data: DefaultObject | string[],
   returning: string[]
 ): Promise<DefaultObject> {
-  return await database(table).where(where).update(data, returning)
+  return await database(table).where(where).update(data, returning);
 }
 
 export async function applyDelete(
@@ -26,7 +28,7 @@ export async function applyDelete(
   table: string,
   where: DefaultObject
 ): Promise<boolean> {
-  return await database(table).where(where).delete()
+  return await database(table).where(where).delete();
 }
 
 export async function findOne(
@@ -37,7 +39,7 @@ export async function findOne(
 ): Promise<DefaultObject | undefined> {
   return (await database(table).select(select).where(where).first()) as
     | DefaultObject
-    | undefined
+    | undefined;
 }
 
 export async function findAll(
@@ -46,5 +48,5 @@ export async function findAll(
   select: string[] = ['*'],
   where: DefaultObject
 ): Promise<DefaultObject[]> {
-  return await database(table).where(where).select(select)
+  return await database(table).where(where).select(select);
 }
