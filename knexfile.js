@@ -1,6 +1,6 @@
-require('ts-node').register();
-const path = require('node:path');
-const { getKnexConfig } = require('./src/infra/database/database-config');
+require('ts-node').register()
+const path = require('node:path')
+const { getKnexConfig } = require('./src/infra/database/database-config')
 
 /**
  *
@@ -8,11 +8,11 @@ const { getKnexConfig } = require('./src/infra/database/database-config');
  * @returns
  */
 function absolute(dest) {
-  return path.join(__dirname, dest);
+  return path.join(__dirname, dest)
 }
 
 module.exports = () => {
-  const dbname = process.env.DB_NAME ?? 'postgres';
+  const dbname = process.env.DB_NAME ?? 'postgres'
 
   const extra = {
     pool: {
@@ -26,7 +26,7 @@ module.exports = () => {
     seeds: {
       directory: absolute('./src/database/knex/seeds')
     }
-  };
+  }
 
-  return getKnexConfig(dbname, extra);
-};
+  return getKnexConfig(dbname, extra)
+}

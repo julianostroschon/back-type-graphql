@@ -1,7 +1,7 @@
-import { Knex } from 'knex';
+import { Knex } from 'knex'
 
 const buildQueryMock = (value: any) => {
-  const query = value;
+  const query = value
   Object.assign(query, {
     count: jest.fn().mockReturnThis(),
     del: jest.fn().mockReturnThis(),
@@ -33,19 +33,19 @@ const buildQueryMock = (value: any) => {
     whereBetween: jest.fn().mockReturnThis(),
     whereNotBetween: jest.fn().mockReturnThis(),
     whereRaw: jest.fn().mockReturnThis()
-  });
+  })
 
-  return query;
-};
+  return query
+}
 
 export const buildDbMock = (...values: any[]) => {
-  const database = jest.fn();
+  const database = jest.fn()
 
-  const queries = [];
+  const queries = []
   for (const value of values) {
-    const query = buildQueryMock(value);
-    queries.push(query);
-    database.mockReturnValueOnce(query);
+    const query = buildQueryMock(value)
+    queries.push(query)
+    database.mockReturnValueOnce(query)
   }
-  return { database: database as unknown as Knex, queries };
-};
+  return { database: database as unknown as Knex, queries }
+}

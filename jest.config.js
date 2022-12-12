@@ -2,8 +2,8 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
-const path = require('path');
-const rootDir = path.resolve(__dirname, '../../');
+const path = require('path')
+const rootDir = path.resolve(__dirname, '../../')
 
 module.exports = {
   // All imported modules in your tests should be mocked automatically
@@ -195,4 +195,4 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}
