@@ -1,7 +1,7 @@
-import { User } from 'Entities/User'
 import { Knex } from 'knex'
+import { User } from '../../Entities/User'
 
-type Context = {
+interface Context {
   database: Knex
   user: User
 }
