@@ -34,15 +34,17 @@ export async function findAll(
   table: string,
   select = ['*'],
   where: DefaultObject
-): Promise<DefaultObject> {
-  return await database(table).select(select).where(where).first()
+): Promise<DefaultObject | undefined> {
+  return (await database(table).select(select).where(where).first()) as
+    | DefaultObject
+    | undefined
 }
 
 export async function findOne(
   database: Knex,
   table: string,
-  select: string[],
+  select: string[] = [],
   where: DefaultObject
-): Promise<DefaultObject> {
+): Promise<DefaultObject[]> {
   return await database(table).where(where).select(select)
 }
