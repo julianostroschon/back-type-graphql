@@ -1,6 +1,5 @@
 import { User } from '../../Entities/User';
-import { applyInsert } from '../../helpers';
-import { first } from 'lodash';
+import { applyInsert, applyUpdate } from '../../helpers';
 import { UserInput } from '../../Entities/UserInput';
 import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
 import { Context } from '../../contracts/general';
@@ -24,7 +23,17 @@ export class UserResolver {
     @Arg('id') id: string,
     @Ctx() { database }: Context
   ): Promise<User> {
-    return database('users').where({ id }).first();
+    const user = (await database('users').where({ id }).first()) as User;
+
+    return user;
+  }
+
+  async getUsers(
+    @Root() _: any,
+    @Arg('__') __: string,
+    @Ctx() { database }: Context
+  ): Promise<User[]> {
+    return database('users').whereNotNull('deleted_at');
   }
 
   @Mutation(() => User)
@@ -32,7 +41,28 @@ export class UserResolver {
     @Root() _: any,
     @Arg('data') data: UserInput,
     @Ctx() { database }: Context
-  ): Promise<User | any> {
-    return first(await applyInsert(database, 'users', data, ['*']));
+  ): Promise<User> {
+    const [first] = await applyInsert<UserInput, User>(
+      database,
+      'users',
+      data,
+      ['*']
+    );
+    return first;
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Root() _: any,
+    @Arg('data') data: UserInput,
+    @Ctx() { database }: Context
+  ): Promise<User> {
+    const [userUpdated] = await applyUpdate<UserInput, User>(
+      database,
+      'users',
+      data,
+      { id: data.id }
+    );
+    return userUpdated;
   }
 }
