@@ -74,6 +74,7 @@
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
     "graphql": "^15.8.0",
+    "hyperid": "^3.0.1",
     "knex": "^2.3.0",
     "lodash": "^4.17.21",
     "pg": "^8.8.0",
