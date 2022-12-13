@@ -1,3 +1,3 @@
-type DefaultObject = Record<string, string | number>
+type DefaultObject = Record<string, string | number>;
 
-export { DefaultObject }
+export { DefaultObject };

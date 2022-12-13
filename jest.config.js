@@ -2,8 +2,8 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
  */
-const path = require('path')
-const rootDir = path.resolve(__dirname, '../../')
+const path = require('path');
+const rootDir = path.resolve(__dirname, '../../');
 
 module.exports = {
   // All imported modules in your tests should be mocked automatically
@@ -91,7 +91,7 @@ module.exports = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '@/(.*)$': '<rootDir>/../src/$1'
+    '@/(.*)$': '<rootDir>/../src/$1',
   },
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -135,7 +135,7 @@ module.exports = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ['<rootDir>/index.ts']
+  setupFiles: ['<rootDir>/index.ts'],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
@@ -195,4 +195,4 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-}
+};

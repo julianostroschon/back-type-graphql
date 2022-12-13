@@ -1,22 +1,22 @@
-import { database } from './database'
-import { Context } from '../contracts/general/context'
+import { database } from './database';
+import { Context } from '../contracts/general/context';
 
 const user = {
   id: 'sasas',
   name: 'Juliano',
   password: '',
-  email: 'ssaa'
-}
+  email: 'ssaa',
+};
 
 const defineContext = (): Context => {
   return {
     database,
-    user
-  }
-}
+    user,
+  };
+};
 
 export function createContext() {
   return () => {
-    return defineContext()
-  }
+    return defineContext();
+  };
 }

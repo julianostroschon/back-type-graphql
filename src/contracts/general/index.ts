@@ -1,2 +1,2 @@
-export * from './context'
-export * from './inputTypes'
+export * from './context';
+export * from './inputTypes';

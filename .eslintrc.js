@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     es2021: true,
-    node: true
+    node: true,
   },
   extends: [
     'standard-with-typescript',
@@ -16,7 +16,7 @@ module.exports = {
     'plugin:node/recommended',
     'plugin:jest-formatting/recommended',
     'plugin:security-node/recommended',
-    'plugin:jest/recommended'
+    'plugin:jest/recommended',
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
@@ -25,16 +25,16 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       extends: [
         'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking'
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
       ],
       parserOptions: {
-        project: ['./tsconfig.json']
-      }
-    }
+        project: ['./tsconfig.json'],
+      },
+    },
   ],
   parserOptions: {
     ecmaVersion: 12,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   rules: {
     'new-cap': 'off',
@@ -44,10 +44,10 @@ module.exports = {
     'no-console': 2,
     'node/no-unsupported-features/es-syntax': [
       'error',
-      { ignores: ['modules'] }
+      { ignores: ['modules'] },
     ],
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
-    'node/no-missing-import': 'off'
-  }
-}
+    'node/no-missing-import': 'off',
+  },
+};

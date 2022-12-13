@@ -1,8 +1,8 @@
-import { buildTypeDefs } from './buildTypeDefs'
-import { buildResolvers } from './buildResolvers'
-import { createContext } from '../infra/context'
-import { buildSchema } from 'type-graphql'
-import path from 'path'
+import { buildSchema } from 'type-graphql';
+import { buildTypeDefs } from './buildTypeDefs';
+import { buildResolvers } from './buildResolvers';
+import { createContext } from '../infra/context';
+import path from 'path';
 
 /**
  * It takes a schema location and resolvers, and returns a schema
@@ -11,8 +11,8 @@ import path from 'path'
  * @returns A promise that resolves to a GraphQLSchema object.
  */
 async function loadSchema(schemaLocation: string, resolvers: any) {
-  const emitSchemaFile = path.resolve(__dirname, schemaLocation)
-  return buildSchema({ resolvers, emitSchemaFile })
+  const emitSchemaFile = path.resolve(__dirname, schemaLocation);
+  return await buildSchema({ resolvers, emitSchemaFile });
 }
 
 /**
@@ -24,16 +24,16 @@ async function loadSchema(schemaLocation: string, resolvers: any) {
  *   typeDefs: The type definitions
  */
 export async function createConfigServer(
-  schemaLocation: string = './schema/typeDefs.graphql'
+  schemaLocation = './schema/typeDefs.graphql'
 ) {
   const [schema, context, typeDefs] = await Promise.all([
     await loadSchema(schemaLocation, await buildResolvers()),
     await createContext(),
-    await buildTypeDefs()
-  ])
+    await buildTypeDefs(),
+  ]);
   return {
     typeDefs,
     context,
-    schema
-  }
+    schema,
+  };
 }
