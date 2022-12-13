@@ -12,5 +12,5 @@ export class User {
   email: string;
 
   @Field({ nullable: false })
-  password: string;
+  password?: string;
 }
