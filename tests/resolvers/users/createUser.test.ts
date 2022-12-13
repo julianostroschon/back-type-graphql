@@ -6,7 +6,9 @@ describe('Resolver getUser', () => {
     const { createUser } = new UserResolver();
     const user = { id: '2', name: 'Juliano', email: 'arrobinha' };
     const { database, queries } = buildDbMock(
-      Promise.resolve([{ id: '1', name: 'u Homem Macaco', email: 'arrobinha@dosguri' }])
+      Promise.resolve([
+        { id: '1', name: 'u Homem Macaco', email: 'arrobinha@dosguri' },
+      ])
     );
 
     const ctx = { database, user };
@@ -17,7 +19,7 @@ describe('Resolver getUser', () => {
     expect(createUser({}, args, ctx)).resolves.toEqual({
       id: '1',
       name: 'u Homem Macaco',
-      email: 'arrobinha@dosguri'
+      email: 'arrobinha@dosguri',
     });
 
     expect(database).toHaveBeenCalledTimes(1);

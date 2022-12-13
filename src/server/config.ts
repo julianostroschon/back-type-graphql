@@ -1,7 +1,7 @@
+import { buildSchema } from 'type-graphql';
 import { buildTypeDefs } from './buildTypeDefs';
 import { buildResolvers } from './buildResolvers';
 import { createContext } from '../infra/context';
-import { buildSchema } from 'type-graphql';
 import path from 'path';
 
 /**
@@ -12,7 +12,7 @@ import path from 'path';
  */
 async function loadSchema(schemaLocation: string, resolvers: any) {
   const emitSchemaFile = path.resolve(__dirname, schemaLocation);
-  return buildSchema({ resolvers, emitSchemaFile });
+  return await buildSchema({ resolvers, emitSchemaFile });
 }
 
 /**
@@ -23,15 +23,17 @@ async function loadSchema(schemaLocation: string, resolvers: any) {
  *   context: The context object
  *   typeDefs: The type definitions
  */
-export async function createConfigServer(schemaLocation: string = './schema/typeDefs.graphql') {
+export async function createConfigServer(
+  schemaLocation = './schema/typeDefs.graphql'
+) {
   const [schema, context, typeDefs] = await Promise.all([
     await loadSchema(schemaLocation, await buildResolvers()),
     await createContext(),
-    await buildTypeDefs()
+    await buildTypeDefs(),
   ]);
   return {
     typeDefs,
     context,
-    schema
+    schema,
   };
 }

@@ -32,7 +32,7 @@ const buildQueryMock = (value: any) => {
     whereNotNull: jest.fn().mockReturnThis(),
     whereBetween: jest.fn().mockReturnThis(),
     whereNotBetween: jest.fn().mockReturnThis(),
-    whereRaw: jest.fn().mockReturnThis()
+    whereRaw: jest.fn().mockReturnThis(),
   });
 
   return query;

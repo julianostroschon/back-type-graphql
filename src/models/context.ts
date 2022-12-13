@@ -1,5 +1,5 @@
-import { Knex } from 'knex'
+import { Knex } from 'knex';
 
 export interface Context {
-  database: Knex
+  database: Knex;
 }
