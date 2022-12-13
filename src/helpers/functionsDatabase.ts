@@ -1,7 +1,6 @@
 import { Knex } from 'knex';
 import { DefaultObject } from '../contracts/general';
 
-// type InputType = DefaultObject | Class;
 export async function applyInsert<InsertType, ReturnType>(
   database: Knex,
   table: string,
@@ -31,14 +30,14 @@ export async function applyDelete(
   return await database(table).where(where).delete();
 }
 
-export async function findOne(
+export async function findOne<ReturnType>(
   database: Knex,
   table: string,
   select: string[],
   where: DefaultObject
-): Promise<DefaultObject | undefined> {
+): Promise<ReturnType | undefined> {
   return (await database(table).select(select).where(where).first()) as
-    | DefaultObject
+    | ReturnType
     | undefined;
 }
 
