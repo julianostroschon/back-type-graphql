@@ -1,12 +1,12 @@
-import path from 'path'
-import { mergeTypeDefs } from '@graphql-tools/merge'
-import { loadFiles } from '@graphql-tools/load-files'
+import { mergeTypeDefs } from '@graphql-tools/merge';
+import { loadFiles } from '@graphql-tools/load-files';
+import { DocumentNode } from 'graphql';
+import path from 'path';
 
-export const buildTypeDefs = async () => {
-  const dir = path.join(__dirname, './')
-  const typesArray = await loadFiles(dir, {
-    extensions: ['graphql']
-  })
+export const buildTypeDefs = async (): Promise<DocumentNode> => {
+  const typesArray = await loadFiles(path.join(__dirname, './'), {
+    extensions: ['graphql'],
+  });
 
-  return mergeTypeDefs(typesArray)
-}
+  return mergeTypeDefs(typesArray);
+};

@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.6.1",
+    "@graphql-tools/merge": "^8.3.14",
     "apollo-server": "^3.11.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
