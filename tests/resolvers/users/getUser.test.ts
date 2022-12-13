@@ -17,7 +17,7 @@ describe('Resolver getUser', () => {
     expect(getUser({}, id, ctx)).resolves.toEqual({
       id: '3',
       name: 'Jesualdo',
-      email: 'arrobinha@dosguri'
+      email: 'arrobinha@dosguri',
     });
 
     expect(database).toHaveBeenCalledTimes(1);
