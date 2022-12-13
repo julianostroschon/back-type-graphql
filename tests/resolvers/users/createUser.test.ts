@@ -1,7 +1,7 @@
 import { buildDbMock } from '../../../src/support/database';
 import { UserResolver } from '../../../src/server/resolvers/user';
 
-describe('Resolver getUser', () => {
+describe('Resolver createUser', () => {
   test('Deve retornar usuário com o id 3', () => {
     const { createUser } = new UserResolver();
     const user = { id: '2', name: 'Juliano', email: 'arrobinha' };
@@ -14,7 +14,11 @@ describe('Resolver getUser', () => {
     const ctx = { database, user };
     const [query] = queries;
 
-    const args = { name: 'u Homem Macaco', email: 'arrobinha@dosguri' };
+    const args = {
+      name: 'u Homem Macaco',
+      email: 'arrobinha@dosguri',
+      password: 'segredo',
+    };
 
     expect(createUser({}, args, ctx)).resolves.toEqual({
       id: '1',
@@ -28,9 +32,23 @@ describe('Resolver getUser', () => {
     expect(query.first).not.toHaveBeenCalled();
 
     expect(database).toHaveBeenCalledWith('users');
-    expect(query.insert).toHaveBeenCalledWith(
-      { email: 'arrobinha@dosguri', name: 'u Homem Macaco' },
-      ['*']
+    expect(query.insert).toHaveBeenCalledWith({
+      email: 'arrobinha@dosguri',
+      name: 'u Homem Macaco',
+      password: 'segredo',
+    });
+  });
+
+  test('Deve retornar o usuário cadastrado', () => {
+    const { createUser } = new UserResolver();
+    const user = { id: '2', name: 'Juliano', email: 'arrobinha' };
+    const { database, queries } = buildDbMock(
+      Promise.resolve([
+        { id: '1', name: 'u Homem Macaco', email: 'arrobinha@dosguri' },
+      ])
     );
+
+    const ctx = { database, user };
+    const [query] = queries;
   });
 });
