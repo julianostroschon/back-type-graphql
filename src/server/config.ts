@@ -17,7 +17,6 @@ async function loadSchema(
   resolvers: TypeResolvers
 ): Promise<GraphQLSchema> {
   const emitSchemaFile = path.resolve(__dirname, schemaLocation);
-
   return await buildSchema({ resolvers, emitSchemaFile });
 }
 
