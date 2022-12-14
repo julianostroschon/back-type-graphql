@@ -1743,17 +1743,15 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.34.tgz#cd2e6fa0dbfb08a62582a7b967558e73c32061ec"
   integrity sha512-hcU9AIQVHmPnmjRK+XUUYlILlr9pQrsqSrwov/JK1pnf3GTQowVBhx54FbvM0AU/VXGH4i3+vgXS5EguR7fysA==
 
-<<<<<<< HEAD
 "@types/password-hash@^1.2.21":
   version "1.2.21"
   resolved "https://registry.yarnpkg.com/@types/password-hash/-/password-hash-1.2.21.tgz#ded99ab78729fbafaf752a2ffa2bf80111bef841"
   integrity sha512-2ydqTgBJUDekT+jeZZEiqRIAKHXYuhgFhpb6Ay8IU30UoG/VmkOeCU2xddc5SYfi2qGz699B/J6HdEHKmBquqQ==
-=======
+
 "@types/prettier@^2.1.5":
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.7.1.tgz#dfd20e2dc35f027cdd6c1908e80a5ddc7499670e"
   integrity sha512-ri0UmynRRvZiiUJdiz38MmIblKK+oH30MztdBVR95dv/Ubw6neWSb8u1XpRb72L4qsZOhz+L+z9JD40SJmfWow==
->>>>>>> origin/develop
 
 "@types/qs@*":
   version "6.9.7"
