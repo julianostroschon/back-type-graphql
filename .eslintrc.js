@@ -37,6 +37,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    '@typescript-eslint/strict-boolean-expressions': 'off',
     'new-cap': 'off',
     'no-invalid-this': 'off',
     'require-jsdoc': 'off',
