@@ -24,7 +24,7 @@ export function buildContext(args: IContextFactory): IContext {
     const loadDb = buildConnector(logger, args.controller);
 
     return {
-      database: loadDb.getKnex('local'),
+      database: loadDb.getKnex('postgres'),
       logger,
       user: {
         id: 'sasas',
