@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { sleep } from './utils';
 
 const INTERNAL_ERROR = 1;
@@ -17,11 +18,17 @@ export function onStop(listener: OnStopCallback): void {
   listeners.push(listener);
 }
 
-const fireListeners = (err: Error | null, signal: string) => {
-  return Promise.all(listeners.map(fn => fn(err, signal)));
+const fireListeners = async (
+  err: Error | null,
+  signal: string
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+): Promise<undefined[]> => {
+  return (await Promise.all(
+    listeners.map(fn => fn(err, signal))
+  )) as undefined[];
 };
 
-const handler = async (err: Error | null, signal: string) => {
+const handler = async (err: Error | null, signal: string): Promise<never> => {
   let localError = null;
   try {
     await Promise.race([fireListeners(err, signal), sleep(6000)]);
@@ -32,13 +39,17 @@ const handler = async (err: Error | null, signal: string) => {
     }
     localError = e;
   } finally {
+    // eslint-disable-next-line no-process-exit
     process.exit(localError || err ? INTERNAL_ERROR : SUCCESS_EXIT_CODE);
   }
 };
 
-process.on('beforeExit', () => handler(null, 'beforeExit'));
-process.on('exit', () => handler(null, 'exit'));
-process.on('uncaughtException', err => handler(err, 'uncaughtException'));
-process.on('SIGINT', () => handler(null, 'SIGINT'));
-process.on('SIGQUIT', () => handler(null, 'SIGQUIT'));
-process.on('SIGTERM', () => handler(null, 'SIGTERM'));
+process.on('beforeExit', async () => await handler(null, 'beforeExit'));
+process.on('exit', async () => await handler(null, 'exit'));
+process.on(
+  'uncaughtException',
+  async err => await handler(err, 'uncaughtException')
+);
+process.on('SIGINT', async () => await handler(null, 'SIGINT'));
+process.on('SIGQUIT', async () => await handler(null, 'SIGQUIT'));
+process.on('SIGTERM', async () => await handler(null, 'SIGTERM'));
