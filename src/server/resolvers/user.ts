@@ -22,8 +22,10 @@ export class UserResolver {
     @Root() _: any,
     @Arg('id') id: string,
     @Ctx() { database, logger }: Context
-  ): Promise<User | undefined> {
-    const user = (await database('users').where({ id }).first()) as User;
+  ): Promise<User | Error> {
+    const user = (await database('users').where({ id }).first()) as
+      | User
+      | undefined;
 
     if (!user) {
       logger.warn(`User with id ${id} not found`);
