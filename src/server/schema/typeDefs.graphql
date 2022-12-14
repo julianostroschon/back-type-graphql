@@ -4,13 +4,27 @@
 # -----------------------------------------------
 
 type Mutation {
+  createTag(data: TagInput!): Tag!
   createUser(data: UserInput!): User!
-  pong: String!
+  deleteTag(id: String!): Boolean!
+  updateTag(data: TagInput!, id: String!): Tag!
 }
 
 type Query {
+  getTag(id: String!): Tag!
   getUser(id: String!): User!
-  ping: String!
+}
+
+type Tag {
+  description: String
+  id: String!
+  name: String!
+}
+
+input TagInput {
+  description: String
+  id: String
+  name: String
 }
 
 type User {
@@ -21,7 +35,7 @@ type User {
 }
 
 input UserInput {
-  email: String
+  email: String!
   name: String!
   password: String
 }

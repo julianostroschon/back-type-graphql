@@ -1,48 +1,44 @@
-import { UserInput } from 'Entities/UserInput';
 import { Knex } from 'knex';
 import { DefaultObject } from '../contracts/general';
 
-export async function applyInsert(
+export async function applyInsert<InsertType, ReturnType>(
   database: Knex,
   table: string,
-  data: DefaultObject | UserInput,
-  returning: string[]
-): Promise<Array<DefaultObject>> {
-  return database(table).insert(data, returning);
+  data: InsertType,
+  returning: string[] = ['*']
+): Promise<ReturnType[]> {
+  return (await database(table)
+    .insert(data)
+    .returning(returning)) as ReturnType[];
 }
 
-export async function applyUpdate(
+export async function applyUpdate<UpdateType, ReturnType>(
   database: Knex,
   table: string,
   where: DefaultObject,
-  data: DefaultObject | Array<string>,
-  returning: string[]
-): Promise<DefaultObject> {
-  return database(table).where(where).update(data, returning);
+  data: UpdateType,
+  returning: string[] = ['*']
+): Promise<ReturnType[]> {
+  return (await database(table)
+    .where(where)
+    .update(data, returning)) as ReturnType[];
 }
 
 export async function applyDelete(
   database: Knex,
   table: string,
-  where: DefaultObject
+  id: string
 ): Promise<boolean> {
-  return database(table).where(where).delete();
+  return await database(table).where({ id }).delete();
 }
 
-export async function findAll(
-  database: Knex,
-  table: string,
-  select = ['*'],
-  where: DefaultObject
-): Promise<DefaultObject> {
-  return database(table).select(select).where(where).first();
-}
-
-export async function findOne(
+export async function findOne<ReturnType>(
   database: Knex,
   table: string,
   select: string[],
   where: DefaultObject
-): Promise<DefaultObject> {
-  return database(table).where(where).select(select);
+): Promise<ReturnType | undefined> {
+  return (await database(table).select(select).where(where).first()) as
+    | ReturnType
+    | undefined;
 }
