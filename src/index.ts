@@ -14,8 +14,6 @@ buildServer({ logger })
         `🔥 Server stopped by ${signal} signal`
       );
 
-      logger.flush();
-
       await server.stop();
     });
 
