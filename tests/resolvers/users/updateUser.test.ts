@@ -8,13 +8,13 @@ const user = {
   password: 'semHexa',
 };
 
-describe('Resolver readUser', () => {
+describe('Resolver updateUser', () => {
   test('Deve retornar o usuario modificado', () => {
     const { updateUser } = new UserResolver();
     const { database, queries } = buildDbMock(Promise.resolve([user]));
     const [query] = queries;
     const args = {
-      id: '1',
+      id: '2',
       name: 'casaGrande',
       email: 'tebinho@galvao.com',
       password: 'poiséné',
@@ -28,6 +28,10 @@ describe('Resolver readUser', () => {
     });
 
     expect(database).toHaveBeenCalledTimes(1);
+    expect(database).toHaveBeenCalledWith('users');
+    expect(query.where).toHaveBeenCalledTimes(1);
+    expect(query.where).toHaveBeenCalledWith({ id: '2' });
     expect(query.update).toHaveBeenCalledTimes(1);
+    expect(query.update).toHaveBeenCalledWith({ ...args }, ['*']);
   });
 });

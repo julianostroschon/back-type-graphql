@@ -5,6 +5,7 @@
 
 type Mutation {
   createUser(data: UserInput!): User!
+  deleteUser(id: String!): Boolean!
   pong: String!
   updateUser(data: UserInput!): User!
 }
@@ -22,8 +23,8 @@ type User {
 }
 
 input UserInput {
-  email: String!
-  id: String!
+  email: String
+  id: String
   name: String!
-  password: String
+  status: Boolean
 }

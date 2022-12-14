@@ -1,5 +1,11 @@
 import { User } from '../../Entities/User';
-import { applyInsert, applyUpdate } from '../../helpers';
+import {
+  applyDelete,
+  applyInsert,
+  applyUpdate,
+  findOne,
+  findAll,
+} from '../../helpers';
 import { UserInput } from '../../Entities/UserInput';
 import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
 import { Context } from '../../contracts/general';
@@ -22,9 +28,11 @@ export class UserResolver {
     @Root() _: any,
     @Arg('id') id: string,
     @Ctx() { database }: Context
-  ): Promise<User> {
-    const user = (await database('users').where({ id }).first()) as User;
-
+  ): Promise<User | undefined> {
+    const user = await findOne<User | undefined>(database, 'users', id);
+    if (user == null) {
+      throw new Error('Usuario não encontrado');
+    }
     return user;
   }
 
@@ -33,7 +41,7 @@ export class UserResolver {
     @Arg('__') __: string,
     @Ctx() { database }: Context
   ): Promise<User[]> {
-    return database('users').whereNotNull('deleted_at');
+    return await findAll<User>(database, 'users');
   }
 
   @Mutation(() => User)
@@ -42,6 +50,7 @@ export class UserResolver {
     @Arg('data') data: UserInput,
     @Ctx() { database }: Context
   ): Promise<User> {
+    const user = { ...data, password: hashPassword('fundimisa2023') };
     const [first] = await applyInsert<UserInput, User>(
       database,
       'users',
@@ -64,5 +73,14 @@ export class UserResolver {
       { id: data.id }
     );
     return userUpdated;
+  }
+
+  @Mutation(() => Boolean)
+  async deleteUser(
+    @Root() _: any,
+    @Arg('id') id: string,
+    @Ctx() { database }: Context
+  ): Promise<boolean> {
+    return !!(await applyDelete(database, 'users', id));
   }
 }
