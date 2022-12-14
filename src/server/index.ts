@@ -69,7 +69,6 @@ export async function buildServer(args: {
       };
     },
     async stop() {
-      logger.info('Stopping server...');
       controller.abort();
       return await server.stop();
     },
