@@ -8,7 +8,6 @@ import {
   ApolloServerPluginLandingPageDisabled,
 } from 'apollo-server-core';
 
-import { EventEmitter } from 'events';
 import path from 'path';
 
 import { buildContext } from './../server/context';
@@ -16,18 +15,11 @@ import { buildTypeDefs } from './buildTypeDefs';
 import { buildResolvers } from './buildResolvers';
 import { TypeResolvers } from './types';
 import { isDevelopment } from '../support/utils';
-
-import { promisify } from 'util';
-const sleep = promisify(setTimeout);
+import logger from '../support/logger/service';
 
 interface IBuildServer {
   listen: (port: string | number) => Promise<{ url: string }>;
-  stop: (controller: AbortController, server: ApolloServer) => Promise<void>;
-}
-
-async function stop(controller: AbortController, server: ApolloServer) {
-  controller.abort();
-  return await server.stop();
+  stop: () => Promise<void>;
 }
 
 /**
@@ -44,8 +36,6 @@ async function loadSchema(
 
   return await buildSchema({ resolvers, emitSchemaFile });
 }
-
-const emitter = new EventEmitter();
 
 export async function buildServer(args: {
   logger: Logger;
@@ -70,45 +60,18 @@ export async function buildServer(args: {
     ],
   });
 
-  emitter.on('onStop', async (err, signal) => {
-    let localError = null;
-
-    try {
-      args.logger.info({ signal });
-      args.logger.info('Stopping server...');
-      args.logger.flush();
-
-      await Promise.race([stop(controller, server), sleep(6000)]);
-    } catch (e) {
-      if (e) {
-        // eslint-disable-next-line no-console
-        args.logger.error({ e, signal });
-      }
-      localError = e;
-    } finally {
-      process.exit(localError || err ? 1 : 0);
-    }
-  });
-
   return {
     async listen(port) {
-      await server.listen({ port, signal: controller.signal });
+      const { url } = await server.listen({ port, signal: controller.signal });
 
       return {
-        url: `http://0.0.0.0:${port}/graphql`,
+        url: `${url}graphql`,
       };
     },
-    stop,
+    async stop() {
+      logger.info('Stopping server...');
+      controller.abort();
+      return await server.stop();
+    },
   };
 }
-
-const handler = async (err: Error | null, signal: string) => {
-  emitter.emit('onStop', err, signal);
-};
-
-process.on('beforeExit', () => handler(null, 'beforeExit'));
-process.on('exit', () => handler(null, 'exit'));
-process.on('uncaughtException', err => handler(err, 'uncaughtException'));
-process.on('SIGINT', () => handler(null, 'SIGINT'));
-process.on('SIGQUIT', () => handler(null, 'SIGQUIT'));
-process.on('SIGTERM', () => handler(null, 'SIGTERM'));

@@ -16,7 +16,6 @@ export function buildConnector(
   if (controller) {
     controller.signal.addEventListener('abort', () => {
       for (const [datasource, conn] of cacheKnex) {
-        console.log('chegou');
         void conn
           .destroy()
           // eslint-disable-next-line promise/always-return
