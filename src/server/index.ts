@@ -8,13 +8,27 @@ import {
   ApolloServerPluginLandingPageDisabled,
 } from 'apollo-server-core';
 
+import { EventEmitter } from 'events';
 import path from 'path';
 
+import { buildContext } from './../server/context';
 import { buildTypeDefs } from './buildTypeDefs';
 import { buildResolvers } from './buildResolvers';
-import { createContext } from '../infra/context';
 import { TypeResolvers } from './types';
 import { isDevelopment } from '../support/utils';
+
+import { promisify } from 'util';
+const sleep = promisify(setTimeout);
+
+interface IBuildServer {
+  listen: (port: string | number) => Promise<{ url: string }>;
+  stop: (controller: AbortController, server: ApolloServer) => Promise<void>;
+}
+
+async function stop(controller: AbortController, server: ApolloServer) {
+  controller.abort();
+  return await server.stop();
+}
 
 /**
  * It takes a schema location and resolvers, and returns a schema
@@ -31,18 +45,11 @@ async function loadSchema(
   return await buildSchema({ resolvers, emitSchemaFile });
 }
 
-interface IParamsBuildServer {
+const emitter = new EventEmitter();
+
+export async function buildServer(args: {
   logger: Logger;
-}
-
-interface IBuildServer {
-  listen: (port: string | number) => Promise<{ url: string }>;
-  stop: () => Promise<void>;
-}
-
-export async function buildServer(
-  params: IParamsBuildServer
-): Promise<IBuildServer> {
+}): Promise<IBuildServer> {
   const resolvers = await buildResolvers();
 
   const [schema, typeDefs] = await Promise.all([
@@ -50,10 +57,12 @@ export async function buildServer(
     buildTypeDefs(),
   ]);
 
+  const controller = new AbortController();
+
   const server = new ApolloServer({
     typeDefs,
     schema,
-    context: createContext(),
+    context: buildContext({ logger: args.logger, controller }),
     plugins: [
       isDevelopment()
         ? ApolloServerPluginLandingPageGraphQLPlayground()
@@ -61,7 +70,25 @@ export async function buildServer(
     ],
   });
 
-  const controller = new AbortController();
+  emitter.on('onStop', async (err, signal) => {
+    let localError = null;
+
+    try {
+      args.logger.info({ signal });
+      args.logger.info('Stopping server...');
+      args.logger.flush();
+
+      await Promise.race([stop(controller, server), sleep(6000)]);
+    } catch (e) {
+      if (e) {
+        // eslint-disable-next-line no-console
+        args.logger.error({ e, signal });
+      }
+      localError = e;
+    } finally {
+      process.exit(localError || err ? 1 : 0);
+    }
+  });
 
   return {
     async listen(port) {
@@ -71,9 +98,17 @@ export async function buildServer(
         url: `http://0.0.0.0:${port}/graphql`,
       };
     },
-    async stop() {
-      controller.abort();
-      return await server.stop();
-    },
+    stop,
   };
 }
+
+const handler = async (err: Error | null, signal: string) => {
+  emitter.emit('onStop', err, signal);
+};
+
+process.on('beforeExit', () => handler(null, 'beforeExit'));
+process.on('exit', () => handler(null, 'exit'));
+process.on('uncaughtException', err => handler(err, 'uncaughtException'));
+process.on('SIGINT', () => handler(null, 'SIGINT'));
+process.on('SIGQUIT', () => handler(null, 'SIGQUIT'));
+process.on('SIGTERM', () => handler(null, 'SIGTERM'));
