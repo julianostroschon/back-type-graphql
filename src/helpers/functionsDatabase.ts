@@ -1,24 +1,25 @@
-import { UserInput } from 'Entities/UserInput';
 import { Knex } from 'knex';
 import { DefaultObject } from '../contracts/general';
 
-export async function applyInsert(
+export async function applyInsert<InsertType, ReturnType>(
   database: Knex,
   table: string,
-  data: DefaultObject | UserInput,
-  returning: string[]
-): Promise<Array<DefaultObject>> {
-  return database(table).insert(data, returning);
+  data: InsertType,
+  returning: string[] = ['*']
+): Promise<ReturnType[]> {
+  return (await database(table)
+    .insert(data)
+    .returning(returning)) as ReturnType[];
 }
 
 export async function applyUpdate(
   database: Knex,
   table: string,
   where: DefaultObject,
-  data: DefaultObject | Array<string>,
+  data: DefaultObject | string[],
   returning: string[]
 ): Promise<DefaultObject> {
-  return database(table).where(where).update(data, returning);
+  return await database(table).where(where).update(data, returning);
 }
 
 export async function applyDelete(
@@ -26,23 +27,25 @@ export async function applyDelete(
   table: string,
   where: DefaultObject
 ): Promise<boolean> {
-  return database(table).where(where).delete();
+  return await database(table).where(where).delete();
+}
+
+export async function findOne<ReturnType>(
+  database: Knex,
+  table: string,
+  select: string[],
+  where: DefaultObject
+): Promise<ReturnType | undefined> {
+  return (await database(table).select(select).where(where).first()) as
+    | ReturnType
+    | undefined;
 }
 
 export async function findAll(
   database: Knex,
   table: string,
-  select = ['*'],
+  select: string[] = ['*'],
   where: DefaultObject
-): Promise<DefaultObject> {
-  return database(table).select(select).where(where).first();
-}
-
-export async function findOne(
-  database: Knex,
-  table: string,
-  select: string[],
-  where: DefaultObject
-): Promise<DefaultObject> {
-  return database(table).where(where).select(select);
+): Promise<DefaultObject[]> {
+  return await database(table).where(where).select(select);
 }

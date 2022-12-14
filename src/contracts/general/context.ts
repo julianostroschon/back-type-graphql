@@ -1,13 +1,9 @@
 import { Knex } from 'knex';
+import { User } from '../../Entities/User';
 
-type User = {
-  name: string;
-  password: string;
-};
-
-type Context = {
+interface Context {
   database: Knex;
   user: User;
-};
+}
 
 export { Context };

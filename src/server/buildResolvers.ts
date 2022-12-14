@@ -1,11 +1,13 @@
-import path from 'path';
 import { loadFiles } from '@graphql-tools/load-files';
-import { values, map, first } from 'lodash';
+import { TypeResolvers } from './types';
+import path from 'path';
 
-export const buildResolvers = async () => {
-  const resolverPath = path.join(__dirname, './resolvers/**/');
-  const resolversArrayBundle = await loadFiles(resolverPath);
-  return map(resolversArrayBundle, (resolver: any) => {
-    return first(values(resolver));
-  });
+export const buildResolvers = async (): Promise<TypeResolvers> => {
+  const resolversArrayBundle = await loadFiles(
+    path.join(__dirname, './resolvers/**/')
+  );
+
+  return resolversArrayBundle.map((resolver: object[]) => {
+    return Object.values(resolver)[0];
+  }) as TypeResolvers;
 };
