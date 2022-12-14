@@ -16,8 +16,6 @@ const defineContext = (): Context => {
   };
 };
 
-export function createContext() {
-  return () => {
-    return defineContext();
-  };
+export async function createContext() {
+  return async (): Promise<Context> => await defineContext();
 }
