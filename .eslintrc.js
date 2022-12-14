@@ -15,7 +15,6 @@ module.exports = {
     'eslint-config-prettier',
     'plugin:node/recommended',
     'plugin:jest-formatting/recommended',
-    'plugin:security-node/recommended',
     'plugin:jest/recommended',
   ],
   parser: '@typescript-eslint/parser',
