@@ -1,8 +1,8 @@
-import { User } from '../../Entities/User';
-import { applyInsert } from '../../helpers';
-import { UserInput } from '../../Entities/UserInput';
+import { User } from '../Entities/User';
+import { applyInsert } from '../helpers';
+import { UserInput } from '../Entities/UserInput';
 import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
-import { Context } from '../../contracts/general';
+import { Context } from '../contracts/general';
 
 @Resolver()
 export class UserResolver {
