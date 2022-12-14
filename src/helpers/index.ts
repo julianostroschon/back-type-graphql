@@ -1,1 +1,1 @@
-export * from './functionsDatabase';
+export * from './queryBuilder';
