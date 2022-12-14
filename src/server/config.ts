@@ -1,10 +1,9 @@
 import { buildSchema } from 'type-graphql';
-import { GraphQLSchema } from 'graphql';
+import { GraphQLSchema, DocumentNode } from 'graphql';
 import path from 'path';
 
 import { buildTypeDefs } from './buildTypeDefs';
 import { buildResolvers } from './buildResolvers';
-import { createContext } from '../infra/context';
 import { TypeResolvers } from './types';
 
 /**
@@ -32,7 +31,10 @@ async function loadSchema(
  */
 export async function createConfigServer(
   schemaLocation = './schema/typeDefs.graphql'
-): Promise<object> {
+): Promise<{
+  schema: GraphQLSchema;
+  typeDefs: DocumentNode;
+}> {
   const resolvers = await buildResolvers();
 
   const [schema, typeDefs] = await Promise.all([
@@ -43,6 +45,5 @@ export async function createConfigServer(
   return {
     typeDefs,
     schema,
-    context: createContext(),
   };
 }
