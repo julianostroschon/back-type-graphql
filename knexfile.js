@@ -1,6 +1,6 @@
 require('ts-node').register();
 const path = require('node:path');
-const { getKnexConfig } = require('./src/infra/database/database-config');
+const { getKnexConfig } = require('./src/infra/database/config');
 
 /**
  *
