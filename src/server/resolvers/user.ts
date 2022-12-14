@@ -9,6 +9,8 @@ import {
 import { UserInput } from '../../Entities/UserInput';
 import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
 import { Context } from '../../contracts/general';
+import { hashPassword } from './domains/user/index';
+import { passwordUser } from '../../support/constants';
 
 @Resolver()
 export class UserResolver {
@@ -50,7 +52,7 @@ export class UserResolver {
     @Arg('data') data: UserInput,
     @Ctx() { database }: Context
   ): Promise<User> {
-    const user = { ...data, password: hashPassword('fundimisa2023') };
+    const user = { ...data, password: hashPassword(passwordUser) };
     const [first] = await applyInsert<UserInput, User>(
       database,
       'users',
