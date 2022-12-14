@@ -1,22 +1,33 @@
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server';
+import './env';
+import { buildServer } from './server';
+import logger from './support/logger/service';
+import { onStop } from './support/signal';
 
-import { createConfigServer } from './server/config';
-import { getPort } from './helpers';
+buildServer({ logger })
+  .then(async server => {
+    onStop(async (err, signal) => {
+      logger.fatal(
+        {
+          err,
+        },
+        `🔥 Server stopped by ${signal} signal`
+      );
 
-const PORT = getPort();
+      logger.flush();
 
-/**
- * We create a new ApolloServer instance, passing in the result of calling createConfigServer() as the
- * configuration object
- */
-async function runServer(): Promise<void> {
-  const server = new ApolloServer(await createConfigServer());
+      await server.stop();
+    });
 
-  const { url } = await server.listen(PORT);
-
-  console.log(`🚀\nServer ready at ${url}`);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-runServer();
+    return await server.listen(process.env.PORT ?? 4000);
+  })
+  .then(({ url }) => {
+    logger.info(`🚀 Server ready at ${url}`);
+    return null;
+  })
+  .catch((err: Error) => {
+    logger.error(
+      { errorData: err },
+      `❌ Ocurred an error in server start ${err.message}`
+    );
+  });

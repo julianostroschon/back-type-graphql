@@ -1,6 +1,9 @@
+/* eslint-disable node/no-missing-require */
+/* eslint-disable node/no-unpublished-require */
+/* eslint-disable @typescript-eslint/no-var-requires */
 require('ts-node').register();
 const path = require('node:path');
-const { getKnexConfig } = require('./src/infra/database/database-config');
+const { getKnexConfig } = require('./src/infra/database/config');
 
 /**
  *
