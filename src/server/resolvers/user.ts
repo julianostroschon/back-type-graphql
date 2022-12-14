@@ -32,8 +32,8 @@ export class UserResolver {
     @Ctx() { database }: Context
   ): Promise<User | undefined> {
     const user = await findOne<User | undefined>(database, 'users', id);
-    if (user == null) {
-      throw new Error('Usuario não encontrado');
+    if (!user) {
+      return Promise.reject(new Error('Usuário não encontrado'));
     }
     return user;
   }

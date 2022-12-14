@@ -16,10 +16,9 @@ export async function applyUpdate<UpdateType, ReturnType>(
   database: Knex,
   table: string,
   data: UpdateType,
-  where: {},
+  where: DefaultObject,
   returning: string[] = ['*']
 ): Promise<ReturnType[]> {
-  console.log(where);
   return (await database(table)
     .where(where)
     .update(data, returning)) as ReturnType[];
