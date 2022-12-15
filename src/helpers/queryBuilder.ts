@@ -12,14 +12,17 @@ export async function applyInsert<InsertType, ReturnType>(
     .returning(returning)) as ReturnType[];
 }
 
-export async function applyUpdate(
+export async function applyUpdate<UpdateType, ReturnType>(
   database: Knex,
   table: string,
   where: DefaultObject,
-  data: DefaultObject | string[],
-  returning: string[]
-): Promise<DefaultObject> {
-  return await database(table).where(where).update(data, returning);
+  data: UpdateType,
+  returning: string[] = ['*']
+): Promise<ReturnType[]> {
+  return (await database(table)
+    .where(where)
+    .update(data)
+    .returning(returning)) as ReturnType[];
 }
 
 export async function applyDelete(
