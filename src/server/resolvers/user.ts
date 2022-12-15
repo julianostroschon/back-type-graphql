@@ -21,9 +21,16 @@ export class UserResolver {
   async getUser(
     @Root() _: any,
     @Arg('id') id: string,
-    @Ctx() { database }: Context
-  ): Promise<User> {
-    const user = (await database('users').where({ id }).first()) as User;
+    @Ctx() { database, logger }: Context
+  ): Promise<User | Error> {
+    const user = (await database('users').where({ id }).first()) as
+      | User
+      | undefined;
+
+    if (!user) {
+      logger.warn(`User with id ${id} not found`);
+      return await Promise.reject(new Error('invalid user'));
+    }
 
     return user;
   }

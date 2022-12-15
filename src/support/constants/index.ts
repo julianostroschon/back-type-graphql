@@ -1,3 +1,3 @@
-export const hashAlgorithm: string = 'sha256';
-export const hashSaltLength: number = 5;
-export const passwordUser: string = '12345678';
+export const HASH_ALGORITHM = 'sha256';
+export const HASH_SALTS = 5;
+export const PASSWORD_DEFAULT_FAKER = '12345678';
