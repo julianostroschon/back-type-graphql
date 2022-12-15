@@ -23,7 +23,7 @@ export function buildContext(args: IContextFactory): IContext {
     const loadDb = buildConnector(logger, args.controller);
 
     return {
-      database: loadDb.getKnex('postgres'),
+      database: loadDb.getKnex(process.env.DB_NAME ?? 'postgres'),
       logger,
       user: {
         id: 'sasas',

@@ -17,7 +17,7 @@ buildServer({ logger })
       await server.stop();
     });
 
-    return await server.listen(process.env.PORT ?? 4000);
+    return await server.listen(process.env.GRAPHQL_PORT ?? 4000);
   })
   .then(({ url }) => {
     logger.info(`🚀 Server ready at ${url}`);
