@@ -3,7 +3,7 @@ import { applyInsert } from '../helpers';
 import { UserInput } from '../Entities/UserInput';
 import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
 import { Context } from '../contracts/general';
-
+import { USERS as TABLE } from '../support/constants';
 @Resolver()
 export class UserResolver {
   /* A query that returns a user. */
@@ -23,7 +23,7 @@ export class UserResolver {
     @Arg('id') id: string,
     @Ctx() { database, logger }: Context
   ): Promise<User | Error> {
-    const user = (await database('users').where({ id }).first()) as
+    const user = (await database(TABLE).where({ id }).first()) as
       | User
       | undefined;
 
@@ -41,12 +41,9 @@ export class UserResolver {
     @Arg('data') data: UserInput,
     @Ctx() { database }: Context
   ): Promise<User> {
-    const [first] = await applyInsert<UserInput, User>(
-      database,
-      'users',
-      data,
-      ['*']
-    );
+    const [first] = await applyInsert<UserInput, User>(database, TABLE, data, [
+      '*',
+    ]);
     return first;
   }
 }

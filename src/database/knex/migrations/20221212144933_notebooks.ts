@@ -1,7 +1,8 @@
 import { Knex } from 'knex';
+import { NOTEBOOKS } from '../../../support/constants';
 
 export async function up(knex: Knex): Promise<void> {
-  return await knex.schema.createTable('notebook', function (table) {
+  return await knex.schema.createTable(NOTEBOOKS, function (table) {
     table.increments('id').primary().unsigned();
     table.string('name').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
@@ -11,5 +12,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  return await knex.schema.dropTable('notebook');
+  return await knex.schema.dropTable(NOTEBOOKS);
 }
