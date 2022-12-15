@@ -1,8 +1,10 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+PATHS=$(git diff --cached --name-only)
 
-  yarn  unit:test \
+  yarn lint-staged &&
+  yarn unit:test \
   --passWithNoTests \
   --silent \
   --findRelatedTests $PATHS
