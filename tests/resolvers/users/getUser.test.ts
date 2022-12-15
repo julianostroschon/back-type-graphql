@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Knex } from 'knex';
 import { Logger } from 'pino';
 import { UserResolver } from '../../../src/resolvers/user';
