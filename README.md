@@ -38,9 +38,29 @@ yarn
 yarn dev
 ```
 
+### 🐳 Docker
+
+Localmente o docker-compose é usado para criar uma instancia do banco de dados.
+
+> Lembre-se de criar o arquivo `.env` com base no arquivo `.env.example`, ele é compartilhado entre o docker-compose e a aplicação.
+
+```sh
+# baixa as imagens docker
+docker-compose pull
+
+# sobe o serviço docker
+docker-compose up
+
+# sobe o serviço docker em segundo plano
+docker-compose up -d
+
+# encerra o serviço docker e os dados associados a eles
+docker-compose down -v
+```
+
 ### :card_file_box: Migrations e Seeds
 
-As migrations e os seeds são controlados pelo `[knex](http://knexjs.org/)`
+As migrations e os seeds são controlados pelo [knex](http://knexjs.org/)
 
 As `data migrations` são, normalmente, registros de configurações salvos no banco de dados, sendo estes necessários para o funcionamento do sistema. Com isso, é necessário executar o comando `yarn data:migrate` **antes** de executar os `seeds`.
 
