@@ -21,7 +21,8 @@ export async function applyUpdate<UpdateType, ReturnType>(
 ): Promise<ReturnType[]> {
   return (await database(table)
     .where(where)
-    .update(data, returning)) as ReturnType[];
+    .update(data)
+    .returning(returning)) as ReturnType[];
 }
 
 export async function applyDelete(
@@ -37,12 +38,14 @@ export async function findOne<ReturnType>(
   table: string,
   id: string
 ): Promise<ReturnType | undefined> {
-  return database(table).where({ id }).first() as ReturnType | undefined;
+  return (await database(table).where({ id }).first()) as
+    | ReturnType
+    | undefined;
 }
 
 export async function findAll<ReturnType>(
   database: Knex,
   table: string
 ): Promise<ReturnType[]> {
-  return database(table);
+  return (await database(table)) as ReturnType[];
 }
