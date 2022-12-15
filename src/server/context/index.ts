@@ -18,7 +18,6 @@ export function buildContext(args: IContextFactory): IContext {
 
     const logger = args.logger.child({
       traceID: instance(),
-      // origin: ctx.req.headers,
     });
 
     const loadDb = buildConnector(logger, args.controller);

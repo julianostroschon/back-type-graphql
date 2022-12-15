@@ -36,6 +36,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'promise/no-promise-in-callback': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     'new-cap': 'off',
     'no-invalid-this': 'off',

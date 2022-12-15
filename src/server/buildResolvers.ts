@@ -4,7 +4,7 @@ import path from 'path';
 
 export const buildResolvers = async (): Promise<TypeResolvers> => {
   const resolversArrayBundle = await loadFiles(
-    path.join(__dirname, './resolvers/**/')
+    path.join(__dirname, '../resolvers/**/')
   );
 
   return resolversArrayBundle.map((resolver: object[]) => {

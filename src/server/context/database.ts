@@ -12,7 +12,6 @@ export function buildConnector(
 ): IBuildConnector {
   const cacheKnex = new Map<string, Knex>();
 
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (controller) {
     controller.signal.addEventListener('abort', () => {
       for (const [datasource, conn] of cacheKnex) {
