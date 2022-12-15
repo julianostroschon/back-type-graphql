@@ -12,7 +12,7 @@ Backend escrito em Node.js
 
 ### :rocket: Projeto
 
-**Partithura Proxy** Este projeto tem objetivo de (complementar)...
+**Parti Notes** Este projeto tem objetivo de (complementar)...
 
 ### :mortar_board: Instruções
 
