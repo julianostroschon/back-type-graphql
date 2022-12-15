@@ -1,5 +1,4 @@
-import { Context } from '../../contracts';
-import { User } from '../../Entities/User';
+import { Context, UserCtx } from '../../contracts';
 import { buildDbMock } from '../database';
 import logger from '../logger/service';
 
@@ -7,7 +6,7 @@ interface BaseMock {
   ctx: Context;
   queries: any;
 }
-function createCtxUser(toBeUSer: User | undefined): User {
+function createCtxUser(toBeUSer: UserCtx | undefined): UserCtx {
   if (!toBeUSer) {
     return {
       id: '1',
@@ -20,7 +19,7 @@ function createCtxUser(toBeUSer: User | undefined): User {
 
 export function buildCtxMock(
   value: any,
-  userToInjectInCtx?: User | undefined
+  userToInjectInCtx?: UserCtx | undefined
 ): BaseMock {
   const { database, queries } = buildDbMock(value);
 

@@ -1,11 +1,16 @@
 import { Knex } from 'knex';
 import { Logger } from 'pino';
-import { User } from '../../Entities/User';
 
 interface Context {
   database: Knex;
-  user: User;
+  user: UserCtx;
   logger: Logger;
 }
 
-export { Context };
+interface UserCtx {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export { Context, UserCtx };
