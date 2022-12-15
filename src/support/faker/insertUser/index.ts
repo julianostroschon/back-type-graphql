@@ -10,7 +10,7 @@ export function createRandomUser(): User {
     name: faker.internet.userName(),
     email: faker.internet.email(),
     password: hashPassword(passwordUser),
-    status: true
+    status: true,
   };
 }
 export function insertRandomUsers(quantity: number = 40): void {

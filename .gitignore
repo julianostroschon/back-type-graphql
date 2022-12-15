@@ -137,7 +137,3 @@ database.crt
 # buildedApp
 dist/
 node_modules
-
-# support
-src/support/constants
-src/support/faker
