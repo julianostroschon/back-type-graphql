@@ -38,7 +38,7 @@ yarn
 yarn dev
 ```
 
-#### :card_file_box: Migrations e Seeds
+### :card_file_box: Migrations e Seeds
 
 As migrations e os seeds são controlados pelo `[knex](http://knexjs.org/)`
 
