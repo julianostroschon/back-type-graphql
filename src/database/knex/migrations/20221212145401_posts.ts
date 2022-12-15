@@ -11,10 +11,10 @@ export async function up(knex: Knex): Promise<void> {
       .references('users.id')
       .onDelete('SET NULL')
       .onUpdate('CASCADE');
-    table.integer('caderno_id').unsigned();
+    table.integer('notebook_id').unsigned();
     table
-      .foreign('caderno_id')
-      .references('cadernos.id')
+      .foreign('notebook_id')
+      .references('notebook.id')
       .onDelete('CASCADE')
       .onUpdate('CASCADE');
     table.timestamp('created_at').defaultTo(knex.fn.now());
