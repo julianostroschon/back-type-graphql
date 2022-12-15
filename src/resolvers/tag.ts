@@ -1,8 +1,8 @@
-import { Tag } from '../../Entities/Tag';
-import { TagInput } from '../../Entities/TagInput';
-import { applyDelete, applyInsert, applyUpdate, findOne } from '../../helpers';
+import { Tag } from '../Entities/Tag';
+import { TagInput } from '../Entities/TagInput';
+import { applyDelete, applyInsert, applyUpdate, findOne } from '../helpers';
 import { Query, Ctx, Resolver, Root, Arg, Mutation } from 'type-graphql';
-import { Context } from '../../contracts/general';
+import { Context } from '../contracts/general';
 
 @Resolver()
 export class TagResolver {
@@ -12,7 +12,7 @@ export class TagResolver {
     @Arg('id') id: string,
     @Ctx() { database }: Context
   ): Promise<Tag | undefined> {
-    return findOne(database, 'tags', ['*'], { id });
+    return await findOne(database, 'tags', ['*'], { id });
   }
 
   @Mutation(() => Tag)
@@ -33,7 +33,9 @@ export class TagResolver {
     @Arg('id') id: string,
     @Ctx() { database }: Context
   ): Promise<boolean> {
-    return !!applyDelete(database, 'tags', id);
+    const result = await applyDelete(database, 'tags', { id });
+
+    return Boolean(result);
   }
 
   @Mutation(() => Tag)
@@ -42,8 +44,14 @@ export class TagResolver {
     @Arg('data') data: TagInput,
     @Arg('id') id: string,
     @Ctx() { database }: Context
-  ): Promise<Tag | any> {
-    const [first] = await applyUpdate(database, 'tags', { id }, data, ['*']);
+  ): Promise<Tag> {
+    const [first] = await applyUpdate<TagInput, Tag>(
+      database,
+      'tags',
+      { id },
+      data,
+      ['*']
+    );
     return first;
   }
 }
