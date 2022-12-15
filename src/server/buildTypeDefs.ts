@@ -4,7 +4,7 @@ import { DocumentNode } from 'graphql';
 import path from 'path';
 
 export const buildTypeDefs = async (): Promise<DocumentNode> => {
-  const typesArray = await loadFiles(path.join(__dirname, './'), {
+  const typesArray = await loadFiles(path.join(__dirname, '../'), {
     extensions: ['graphql'],
   });
 

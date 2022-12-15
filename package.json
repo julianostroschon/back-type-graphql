@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">16.0.0 <17.0.0"
+  },
   "scripts": {
     "dev": "NODE_ENV=development tsnd --respawn src/index.ts",
     "watch": "tsc -w",
@@ -11,10 +14,6 @@
     "format": "prettier . -w -u",
     "format:check": "prettier . -c -u",
     "lint": "eslint --max-warnings=0",
-    "prepare": "husky install",
-    "postinstall": "yarn husky install",
-    "codegen": "graphql-codegen --config codegen.ts",
-    "insertUsers": "tsc ./support/faker/insertUser",
     "unit:test": "jest",
     "migrate:latest": "npx knex migrate:latest",
     "migrate:rollback": "npx knex migrate:rollback",

@@ -15,7 +15,6 @@ import { buildTypeDefs } from './buildTypeDefs';
 import { buildResolvers } from './buildResolvers';
 import { TypeResolvers } from './types';
 import { isDevelopment } from '../support/utils';
-import logger from '../support/logger/service';
 
 interface IBuildServer {
   listen: (port: string | number) => Promise<{ url: string }>;
@@ -43,7 +42,7 @@ export async function buildServer(args: {
   const resolvers = await buildResolvers();
 
   const [schema, typeDefs] = await Promise.all([
-    loadSchema('./schema/typeDefs.graphql', resolvers),
+    loadSchema('../schema/typeDefs.graphql', resolvers),
     buildTypeDefs(),
   ]);
 

@@ -1,5 +1,5 @@
 import { buildDbMock } from '../../../src/support/database';
-import { UserResolver } from '../../../src/server/resolvers/user';
+import { UserResolver } from '../../../src/resolvers/user';
 
 describe('Resolver getUser', () => {
   test('Deve retornar usuário com o id 3', () => {
