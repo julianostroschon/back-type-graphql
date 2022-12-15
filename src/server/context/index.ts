@@ -13,7 +13,7 @@ interface IContextFactory {
 }
 
 export function buildContext(args: IContextFactory): IContext {
-  return function init(ctx: ExpressContext) {
+  return function init(_ctx: ExpressContext) {
     const instance = hyperid();
 
     const logger = args.logger.child({
