@@ -15,8 +15,8 @@ export async function applyInsert<InsertType, ReturnType>(
 export async function applyUpdate<UpdateType, ReturnType>(
   database: Knex,
   table: string,
-  where: DefaultObject,
   data: UpdateType,
+  where: DefaultObject,
   returning: string[] = ['*']
 ): Promise<ReturnType[]> {
   return (await database(table)
@@ -28,27 +28,24 @@ export async function applyUpdate<UpdateType, ReturnType>(
 export async function applyDelete(
   database: Knex,
   table: string,
-  where: DefaultObject
+  id: string
 ): Promise<boolean> {
-  return await database(table).where(where).delete();
+  return await database(table).where({ id }).delete();
 }
 
 export async function findOne<ReturnType>(
   database: Knex,
   table: string,
-  select: string[],
-  where: DefaultObject
+  id: string
 ): Promise<ReturnType | undefined> {
-  return (await database(table).select(select).where(where).first()) as
+  return (await database(table).where({ id }).first()) as
     | ReturnType
     | undefined;
 }
 
-export async function findAll(
+export async function findAll<ReturnType>(
   database: Knex,
-  table: string,
-  select: string[] = ['*'],
-  where: DefaultObject
-): Promise<DefaultObject[]> {
-  return await database(table).where(where).select(select);
+  table: string
+): Promise<ReturnType[]> {
+  return (await database(table)) as ReturnType[];
 }

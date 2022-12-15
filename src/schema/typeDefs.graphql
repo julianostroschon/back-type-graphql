@@ -6,6 +6,9 @@
 type Mutation {
   createTag(data: TagInput!): Tag!
   createUser(data: UserInput!): User!
+  deleteUser(id: String!): Boolean!
+  updateUser(data: UserInput!): User!
+
   deleteTag(id: String!): Boolean!
   updateTag(data: TagInput!, id: String!): Tag!
 }
@@ -35,7 +38,8 @@ type User {
 }
 
 input UserInput {
-  email: String!
+  email: String
+  id: String
   name: String!
-  password: String
+  status: Boolean
 }

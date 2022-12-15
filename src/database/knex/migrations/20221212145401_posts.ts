@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
     table
       .foreign('author_id')
       .references('users.id')
-      .onDelete('CASCADE')
+      .onDelete('SET NULL')
       .onUpdate('CASCADE');
     table.integer('caderno_id').unsigned();
     table

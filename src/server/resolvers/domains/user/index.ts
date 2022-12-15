@@ -5,5 +5,5 @@ export function hashPassword(password: string): string {
   return pwdHash.generate(password, {
     algorithm: HASH_ALGORITHM,
     saltLength: HASH_SALTS,
-  });
+  }) as string;
 }
