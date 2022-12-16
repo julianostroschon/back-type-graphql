@@ -1,6 +1,6 @@
-import { Context, UserCtx } from '../../contracts';
-import { buildDbMock } from '../database';
-import logger from '../logger/service';
+import { Context, UserCtx } from '../../src/contracts';
+import { buildDbMock } from '../../src/support/database';
+import logger from '../../src/support/logger/service';
 
 interface BaseMock {
   ctx: Context;
