@@ -1,22 +1,16 @@
+import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
+
 import { User } from '../Entities/User';
 import { applyInsert } from '../helpers';
 import { UserInput } from '../Entities/UserInput';
-import {
-  Query,
-  Mutation,
-  Ctx,
-  Resolver,
-  Root,
-  Arg,
-  Authorized,
-} from 'type-graphql';
 import { Context } from '../contracts/general';
 import { USERS } from '../support/constants';
+import { ValidationError } from '../support';
+
 @Resolver()
 export class UserResolver {
   /* A query that returns a user. */
   @Query(() => User)
-  @Authorized()
   /**
    * "Get the user with the given id from the database and return it."
    *
@@ -31,14 +25,14 @@ export class UserResolver {
     @Root() _: any,
     @Arg('id') id: string,
     @Ctx() { database, logger }: Context
-  ): Promise<User | Error> {
+  ): Promise<User | ValidationError> {
     const user = (await database(USERS).where({ id }).first()) as
       | User
       | undefined;
 
     if (!user) {
       logger.warn(`User with id ${id} not found`);
-      return await Promise.reject(new Error('invalid user'));
+      return await Promise.reject(ValidationError.build('invalid user'));
     }
 
     return user;
