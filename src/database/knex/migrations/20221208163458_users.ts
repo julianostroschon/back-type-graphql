@@ -1,7 +1,8 @@
 import { Knex } from 'knex';
+import { USERS } from '../../../support/constants';
 
 export async function up(knex: Knex): Promise<void> {
-  return await knex.schema.createTable('users', function (table) {
+  return await knex.schema.createTable(USERS, function (table) {
     table.increments('id').primary().unsigned();
     table.string('name').notNullable();
     table.string('email').notNullable();
@@ -12,5 +13,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  return await knex.schema.dropTable('users');
+  return await knex.schema.dropTable(USERS);
 }
