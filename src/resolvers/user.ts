@@ -1,13 +1,22 @@
 import { User } from '../Entities/User';
 import { applyInsert } from '../helpers';
 import { UserInput } from '../Entities/UserInput';
-import { Query, Mutation, Ctx, Resolver, Root, Arg } from 'type-graphql';
+import {
+  Query,
+  Mutation,
+  Ctx,
+  Resolver,
+  Root,
+  Arg,
+  Authorized,
+} from 'type-graphql';
 import { Context } from '../contracts/general';
 
 @Resolver()
 export class UserResolver {
   /* A query that returns a user. */
   @Query(() => User)
+  @Authorized()
   /**
    * "Get the user with the given id from the database and return it."
    *

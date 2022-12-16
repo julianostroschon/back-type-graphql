@@ -16,11 +16,12 @@ import { buildResolvers } from './buildResolvers';
 import { TypeResolvers } from './types';
 import { isDevelopment } from '../support/utils';
 
+import { authChecker } from './../domains/auth/auth-checker';
+
 interface IBuildServer {
   listen: (port: string | number) => Promise<{ url: string }>;
   stop: () => Promise<void>;
 }
-
 /**
  * It takes a schema location and resolvers, and returns a schema
  * @param {string} schemaLocation - This is the location where the schema will be saved.
@@ -33,7 +34,11 @@ async function loadSchema(
 ): Promise<GraphQLSchema> {
   const emitSchemaFile = path.resolve(__dirname, schemaLocation);
 
-  return await buildSchema({ resolvers, emitSchemaFile });
+  return await buildSchema({
+    resolvers,
+    emitSchemaFile,
+    authChecker,
+  });
 }
 
 export async function buildServer(args: {
