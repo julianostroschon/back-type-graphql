@@ -10,3 +10,13 @@ export class ValidationError extends ApolloError {
     return new ValidationError(message);
   }
 }
+export class AppError extends ApolloError {
+  constructor(message: string, originalError: Error) {
+    super(message);
+    Object.assign(this, { name: 'AppError', originalError });
+  }
+
+  static build(message: string, originalError: Error): ApolloError {
+    return new AppError(message, originalError);
+  }
+}
