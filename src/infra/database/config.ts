@@ -20,3 +20,7 @@ export function getKnexConfig(database: string, extra = {}): Knex.Config {
     config
   ) as Knex.Config;
 }
+
+export const auth = Object.freeze({
+  JWT_KEY: process.env.AUTH_JWT_KEY ?? '111.[111,2222]',
+});
