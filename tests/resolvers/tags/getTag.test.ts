@@ -1,30 +1,28 @@
-import { buildDbMock } from '../../../src/support/database';
-import { TagResolver } from '../../../src/server/resolvers/tag';
+import { buildCtxMock } from '../../stub-context';
+import { TagResolver } from '../../../src/resolvers/tag';
 
 describe('Resolver getTag', () => {
   test('Deve retornar uma tag', () => {
-    const { getTag } = new TagResolver();
-    const user = { id: '2', name: 'Juliano', email: 'arrobinha' };
-    const { database, queries } = buildDbMock(
+    const resolver = new TagResolver();
+    const { ctx, queries } = buildCtxMock(
       Promise.resolve({ id: '1', name: 'desenv', description: 'prog' })
     );
 
-    const ctx = { database, user };
     const [query] = queries;
 
     const id = '1';
 
-    expect(getTag({}, id, ctx)).resolves.toEqual({
+    expect(resolver.getTag({}, id, ctx)).resolves.toEqual({
       id: '1',
       name: 'desenv',
       description: 'prog',
     });
 
-    expect(database).toHaveBeenCalledTimes(1);
+    expect(ctx.database).toHaveBeenCalledTimes(1);
     expect(query.where).toHaveBeenCalledTimes(1);
     expect(query.first).toHaveBeenCalledTimes(1);
 
-    expect(database).toHaveBeenCalledWith('tags');
+    expect(ctx.database).toHaveBeenCalledWith('tags');
     expect(query.where).toHaveBeenCalledWith({ id: '1' });
     expect(query.first).toHaveBeenCalledWith();
   });
